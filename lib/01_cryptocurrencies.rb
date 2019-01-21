@@ -15,12 +15,14 @@ tblName = ["$6558.07", "$468.95", "$0.487526", "$762.84", "$8.86", "$85.26", "$0
 
 tblFull = tblDevise.zip(tblName).to_h
 
-puts tblFull.max_by {|tblDevise,tblName| tblName.slice(1..tblName.length).to_f} 
-puts tblFull.min_by {|tblDevise,tblName| tblName.slice(1..tblName.length).to_f} 
-puts tblFull.count{ |tblDevise, tblName| tblDevise=~ /coin/i }
-puts tblFull.count {|tblDevise, tblName| (tblName.slice(1..tblName.length).to_i < 6000)}
-puts (tblFull.reject{|tblDevise, tblName| (tblName.slice(1..tblName.length).to_i >= 6000)}).max_by{|tblDevise,tblName| tblName.slice(1..tblName.length).to_f} 
+nbrMax = tblFull.count{ |iDevise, iName| (iName.slice(1..iName.length).to_f) == (tblFull.map { |iDevise,iName| iName.slice(1..iName.length).to_f }.max)}
+nbrMin = tblFull.count{ |iDevise, iName| (iName.slice(1..iName.length).to_f) == (tblFull.map { |iDevise,iName| iName.slice(1..iName.length).to_f }.min)}
 
 
+puts tblFull.count {|iDevise,iName| iName.slice(1..iName.length).to_f}
+puts tblFull.max_by(nbrMax) {|iDevise,iName| iName.slice(1..iName.length).to_f} 
+puts tblFull.min_by(nbrMin) {|iDevise,iName| iName.slice(1..iName.length).to_f} 
+puts tblFull.count{ |iDevise, iName| iDevise=~ /coin/i }
 
-
+#puts tblFull.select {|iDevise, iName| (iName.slice(1..iName.length).to_i < 6000)}.keys
+puts (tblFull.reject{|iDevise, iName| (iName.slice(1..iName.length).to_i >= 6000)}).max_by{|iDevise,iName| iName.slice(1..iName.length).to_f} 
